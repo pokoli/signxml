@@ -281,6 +281,12 @@ class XMLSigner(XMLSignatureProcessor):
         self.c14n_alg = c14n_algorithm
         self.namespaces = dict(ds=namespaces.ds)
         self._parser = None
+        """
+        List of built out elements to incorporate
+        such as XADES scheme or any other
+        :type to_append: py:class: list
+        """
+        self.to_append = []
 
     def sign(self, data, key=None, passphrase=None, cert=None, reference_uri=None, key_name=None, key_info=None,
              id_attribute=None, always_add_key_value=False, payload_inclusive_ns_prefixes=frozenset(),
