@@ -1,8 +1,9 @@
 test_deps:
-	pip install coverage flake8 wheel
+	pip install coverage flake8 wheel mypy
 
 lint: test_deps
 	./setup.py flake8
+	if [[ $$(python --version 2>&1) > "Python 3.5" ]]; then mypy $$(python setup.py --name) --ignore-missing-imports; fi
 
 test: test_deps lint
 	coverage run --source=$$(python setup.py --name) ./test/test.py
