@@ -1,0 +1,1038 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <!-- Licensed under the Apache 2.0 License -->
+  <link rel="stylesheet" type="text/css" href="_static/fonts/open-sans/stylesheet.css" />
+  <!-- Licensed under the SIL Open Font License -->
+  <link rel="stylesheet" type="text/css" href="_static/fonts/source-serif-pro/source-serif-pro.css" />
+  <link rel="stylesheet" type="text/css" href="_static/css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="_static/css/bootstrap-theme.min.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <title>SignXML: XML Signature in Python &#8212; signxml  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/guzzle.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+  
+   
+
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">signxml  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">SignXML: XML Signature in Python</a></li> 
+      </ul>
+    </div>
+    <div class="container-wrapper">
+
+      <div id="mobile-toggle">
+        <a href="#"><span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span></a>
+      </div>
+  <div id="left-column">
+    <div class="sphinxsidebar"><a href="
+    #" class="text-logo">signxml</a>
+<div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <h2>Contents</h2>
+    <div class="sidebar-localtoc">
+      <ul>
+<li><a class="reference internal" href="#">SignXML: XML Signature in Python</a><ul>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#synopsis">Synopsis</a><ul>
+<li><a class="reference internal" href="#verifying-saml-assertions">Verifying SAML assertions</a></li>
+<li><a class="reference internal" href="#xml-signature-methods-enveloped-detached-enveloping">XML signature methods: enveloped, detached, enveloping</a></li>
+<li><a class="reference internal" href="#xml-parsing-security-and-compatibility-with-xml-etree-elementtree">XML parsing security and compatibility with <code class="docutils literal notranslate"><span class="pre">xml.etree.ElementTree</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#authors">Authors</a></li>
+<li><a class="reference internal" href="#links">Links</a><ul>
+<li><a class="reference internal" href="#bugs">Bugs</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#license">License</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id5">API documentation</a></li>
+<li><a class="reference internal" href="#release-notes">Release Notes</a></li>
+<li><a class="reference internal" href="#changes-for-v2-9-0-2021-10-08">Changes for v2.9.0 (2021-10-08)</a></li>
+<li><a class="reference internal" href="#changes-for-v2-8-2-2021-05-14">Changes for v2.8.2 (2021-05-14)</a></li>
+<li><a class="reference internal" href="#changes-for-v2-8-1-2020-10-29">Changes for v2.8.1 (2020-10-29)</a></li>
+<li><a class="reference internal" href="#changes-for-v2-8-0-2020-06-20">Changes for v2.8.0 (2020-06-20)</a></li>
+<li><a class="reference internal" href="#changes-for-v2-7-3-2020-06-10">Changes for v2.7.3 (2020-06-10)</a></li>
+<li><a class="reference internal" href="#changes-for-v2-7-2-2019-12-01">Changes for v2.7.2 (2019-12-01)</a></li>
+<li><a class="reference internal" href="#changes-for-v2-7-1-2019-11-30">Changes for v2.7.1 (2019-11-30)</a></li>
+<li><a class="reference internal" href="#changes-for-v2-7-0-2019-11-30">Changes for v2.7.0 (2019-11-30)</a></li>
+<li><a class="reference internal" href="#changes-for-v2-6-0-2019-01-10">Changes for v2.6.0 (2019-01-10)</a></li>
+<li><a class="reference internal" href="#changes-for-v2-5-2-2017-12-07">Changes for v2.5.2 (2017-12-07)</a></li>
+<li><a class="reference internal" href="#changes-for-v2-5-1-2017-12-07">Changes for v2.5.1 (2017-12-07)</a></li>
+<li><a class="reference internal" href="#changes-for-v2-5-0-2017-12-07">Changes for v2.5.0 (2017-12-07)</a></li>
+<li><a class="reference internal" href="#changes-for-v2-4-0-2017-07-10">Changes for v2.4.0 (2017-07-10)</a></li>
+<li><a class="reference internal" href="#changes-for-v2-3-0-2017-04-24">Changes for v2.3.0 (2017-04-24)</a></li>
+<li><a class="reference internal" href="#changes-for-v2-2-4-2017-03-19">Changes for v2.2.4 (2017-03-19)</a></li>
+<li><a class="reference internal" href="#changes-for-v2-2-3-2016-12-20">Changes for v2.2.3 (2016-12-20)</a></li>
+<li><a class="reference internal" href="#changes-for-v2-2-2-2016-12-20">Changes for v2.2.2 (2016-12-20)</a></li>
+<li><a class="reference internal" href="#changes-for-v2-2-1-2016-09-26">Changes for v2.2.1 (2016-09-26)</a></li>
+<li><a class="reference internal" href="#changes-for-v2-2-0-2016-09-25">Changes for v2.2.0 (2016-09-25)</a></li>
+<li><a class="reference internal" href="#changes-for-v2-1-4-2016-09-18">Changes for v2.1.4 (2016-09-18)</a></li>
+<li><a class="reference internal" href="#changes-for-v2-1-0-2016-09-18">Changes for v2.1.0 (2016-09-18)</a><ul>
+<li><a class="reference internal" href="#version-2-0-0-2016-08-05">Version 2.0.0 (2016-08-05)</a></li>
+<li><a class="reference internal" href="#version-1-0-2-2016-08-01">Version 1.0.2 (2016-08-01)</a></li>
+<li><a class="reference internal" href="#version-1-0-1-2016-07-14">Version 1.0.1 (2016-07-14)</a></li>
+<li><a class="reference internal" href="#version-1-0-0-2016-04-08">Version 1.0.0 (2016-04-08)</a></li>
+<li><a class="reference internal" href="#version-0-6-0-2016-03-24">Version 0.6.0 (2016-03-24)</a></li>
+<li><a class="reference internal" href="#version-0-5-0-2016-03-02">Version 0.5.0 (2016-03-02)</a></li>
+<li><a class="reference internal" href="#version-0-4-6-2015-11-28">Version 0.4.6 (2015-11-28)</a></li>
+<li><a class="reference internal" href="#version-0-4-5-2015-11-08">Version 0.4.5 (2015-11-08)</a></li>
+<li><a class="reference internal" href="#version-0-4-4-2015-08-07">Version 0.4.4 (2015-08-07)</a></li>
+<li><a class="reference internal" href="#version-0-4-3-2015-07-26">Version 0.4.3 (2015-07-26)</a></li>
+<li><a class="reference internal" href="#version-0-4-2-2015-04-24">Version 0.4.2 (2015-04-24)</a></li>
+<li><a class="reference internal" href="#version-0-4-1-2015-04-21">Version 0.4.1 (2015-04-21)</a></li>
+<li><a class="reference internal" href="#version-0-4-0-2015-03-08">Version 0.4.0 (2015-03-08)</a></li>
+<li><a class="reference internal" href="#version-0-3-9-2015-02-04">Version 0.3.9 (2015-02-04)</a></li>
+<li><a class="reference internal" href="#version-0-3-7-2015-02-04">Version 0.3.7 (2015-02-04)</a></li>
+<li><a class="reference internal" href="#version-0-3-6-2015-01-10">Version 0.3.6 (2015-01-10)</a></li>
+<li><a class="reference internal" href="#version-0-3-5-2014-12-22">Version 0.3.5 (2014-12-22)</a></li>
+<li><a class="reference internal" href="#version-0-3-4-2014-12-14">Version 0.3.4 (2014-12-14)</a></li>
+<li><a class="reference internal" href="#version-0-3-3-2014-12-13">Version 0.3.3 (2014-12-13)</a></li>
+<li><a class="reference internal" href="#version-0-3-2-2014-12-11">Version 0.3.2 (2014-12-11)</a></li>
+<li><a class="reference internal" href="#version-0-3-1-2014-10-17">Version 0.3.1 (2014-10-17)</a></li>
+<li><a class="reference internal" href="#version-0-3-0-2014-10-16">Version 0.3.0 (2014-10-16)</a></li>
+<li><a class="reference internal" href="#version-0-2-9-2014-10-14">Version 0.2.9 (2014-10-14)</a></li>
+<li><a class="reference internal" href="#version-0-2-8-2014-10-13">Version 0.2.8 (2014-10-13)</a></li>
+<li><a class="reference internal" href="#version-0-2-7-2014-10-13">Version 0.2.7 (2014-10-13)</a></li>
+<li><a class="reference internal" href="#version-0-2-6-2014-10-13">Version 0.2.6 (2014-10-13)</a></li>
+<li><a class="reference internal" href="#version-0-2-5-2014-10-13">Version 0.2.5 (2014-10-13)</a></li>
+<li><a class="reference internal" href="#version-0-2-4-2014-10-12">Version 0.2.4 (2014-10-12)</a></li>
+<li><a class="reference internal" href="#version-0-2-3-2014-10-12">Version 0.2.3 (2014-10-12)</a></li>
+<li><a class="reference internal" href="#version-0-2-2-2014-10-04">Version 0.2.2 (2014-10-04)</a></li>
+<li><a class="reference internal" href="#version-0-2-1-2014-10-04">Version 0.2.1 (2014-10-04)</a></li>
+<li><a class="reference internal" href="#version-0-2-0-2014-10-02">Version 0.2.0 (2014-10-02)</a></li>
+<li><a class="reference internal" href="#version-0-1-9-2014-09-27">Version 0.1.9 (2014-09-27)</a></li>
+<li><a class="reference internal" href="#version-0-1-8-2014-09-25">Version 0.1.8 (2014-09-25)</a></li>
+<li><a class="reference internal" href="#version-0-1-7-2014-09-25">Version 0.1.7 (2014-09-25)</a></li>
+<li><a class="reference internal" href="#version-0-1-6-2014-09-25">Version 0.1.6 (2014-09-25)</a></li>
+<li><a class="reference internal" href="#version-0-1-5-2014-09-25">Version 0.1.5 (2014-09-25)</a></li>
+<li><a class="reference internal" href="#version-0-1-4-2014-09-25">Version 0.1.4 (2014-09-25)</a></li>
+<li><a class="reference internal" href="#version-0-1-3-2014-09-23">Version 0.1.3 (2014-09-23)</a></li>
+<li><a class="reference internal" href="#version-0-1-2-2014-09-22">Version 0.1.2 (2014-09-22)</a></li>
+<li><a class="reference internal" href="#version-0-1-1-2014-09-22">Version 0.1.1 (2014-09-22)</a></li>
+<li><a class="reference internal" href="#version-0-1-0-2014-09-22">Version 0.1.0 (2014-09-22)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#table-of-contents">Table of Contents</a></li>
+</ul>
+
+    </div>
+  </div>
+</div>
+<div class="sidebar-block">
+  <div class="sidebar-wrapper">
+    <div id="main-search">
+      <form class="form-inline" action="search.html" method="GET" role="form">
+        <div class="input-group">
+          <input name="q" type="text" class="form-control" placeholder="Search...">
+        </div>
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+        <div id="right-column">
+          
+          <div role="navigation" aria-label="breadcrumbs navigation">
+            <ol class="breadcrumb">
+              <li><a href="#">Docs</a></li>
+              
+              <li>SignXML: XML Signature in Python</li>
+            </ol>
+          </div>
+          
+          <div class="document clearer body">
+            
+  <div class="section" id="signxml-xml-signature-in-python">
+<h1>SignXML: XML Signature in Python<a class="headerlink" href="#signxml-xml-signature-in-python" title="Permalink to this headline">¶</a></h1>
+<p><em>SignXML</em> is an implementation of the W3C <a class="reference external" href="http://en.wikipedia.org/wiki/XML_Signature">XML Signature</a> standard in
+Python. This standard (also known as XMLDSig and <a class="reference external" href="http://www.ietf.org/rfc/rfc3275.txt">RFC 3275</a>) is used to provide
+payload security in <a class="reference external" href="http://en.wikipedia.org/wiki/SAML_2.0">SAML 2.0</a> and
+<a class="reference external" href="https://en.wikipedia.org/wiki/WS-Security">WS-Security</a>, among other uses. Two versions of the standard exist
+(<a class="reference external" href="http://www.w3.org/TR/xmldsig-core1/">Version 1.1</a> and <a class="reference external" href="http://www.w3.org/TR/xmldsig-core2">Version 2.0</a>).
+<em>SignXML</em> implements all of the required components of the standard, and most recommended ones. Its features are:</p>
+<ul class="simple">
+<li><p>Use of a libxml2-based XML parser configured to defend against
+<a class="reference external" href="https://docs.python.org/3/library/xml.html#xml-vulnerabilities">common XML attacks</a> when verifying signatures</p></li>
+<li><p>Extensions to allow signing with and verifying X.509 certificate chains, including hostname/CN validation</p></li>
+<li><p>Support for exclusive XML canonicalization with inclusive prefixes (<a class="reference external" href="http://www.w3.org/TR/xml-exc-c14n/#def-InclusiveNamespaces-PrefixList">InclusiveNamespaces PrefixList</a>, required to verify signatures generated by
+some SAML implementations)</p></li>
+<li><p>Modern Python compatibility (3.5-3.9+ and PyPy)</p></li>
+<li><p>Well-supported, portable, reliable dependencies: <a class="reference external" href="https://github.com/lxml/lxml">lxml</a>,
+<a class="reference external" href="https://github.com/pyca/cryptography">cryptography</a>, <a class="reference external" href="https://github.com/kislyuk/eight">eight</a>,
+<a class="reference external" href="https://github.com/pyca/pyopenssl">pyOpenSSL</a></p></li>
+<li><p>Comprehensive testing (including the XMLDSig interoperability suite) and <a class="reference external" href="https://github.com/XML-Security/signxml/actions">continuous integration</a></p></li>
+<li><p>Simple interface with useful defaults</p></li>
+<li><p>Compactness, readability, and extensibility</p></li>
+</ul>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip3</span> <span class="n">install</span> <span class="n">signxml</span>
+</pre></div>
+</div>
+<p>Note: SignXML depends on <a class="reference external" href="https://github.com/lxml/lxml">lxml</a> and <a class="reference external" href="https://github.com/pyca/cryptography">cryptography</a>, which in turn depend on <a class="reference external" href="https://www.openssl.org/">OpenSSL</a>, <a class="reference external" href="http://xmlsoft.org/">LibXML</a>, and Python tools to interface with them. You can install those as follows:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 89%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>OS</p></th>
+<th class="head"><p>Command</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Ubuntu</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">--no-install-recommends</span> <span class="pre">python3-pip</span> <span class="pre">python3-wheel</span> <span class="pre">python3-setuptools</span> <span class="pre">python3-openssl</span> <span class="pre">python3-lxml</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Red Hat,
+Amazon Linux,
+CentOS</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">yum</span> <span class="pre">install</span> <span class="pre">python3-pip</span> <span class="pre">python3-pyOpenSSL</span> <span class="pre">python3-lxml</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Mac OS</p></td>
+<td><p>Install <a class="reference external" href="https://brew.sh">Homebrew</a>, then run <code class="docutils literal notranslate"><span class="pre">brew</span> <span class="pre">install</span> <span class="pre">python</span></code>.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="synopsis">
+<h2>Synopsis<a class="headerlink" href="#synopsis" title="Permalink to this headline">¶</a></h2>
+<p>SignXML uses the <a class="reference external" href="https://lxml.de/tutorial.html">lxml ElementTree API</a> to work with XML data.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">lxml</span> <span class="kn">import</span> <span class="n">etree</span>
+<span class="kn">from</span> <span class="nn">signxml</span> <span class="kn">import</span> <span class="n">XMLSigner</span><span class="p">,</span> <span class="n">XMLVerifier</span>
+
+<span class="n">data_to_sign</span> <span class="o">=</span> <span class="s2">&quot;&lt;Test/&gt;&quot;</span>
+<span class="n">cert</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;example.pem&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="n">key</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;example.key&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="n">root</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">data_to_sign</span><span class="p">)</span>
+<span class="n">signed_root</span> <span class="o">=</span> <span class="n">XMLSigner</span><span class="p">()</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">cert</span><span class="o">=</span><span class="n">cert</span><span class="p">)</span>
+<span class="n">verified_data</span> <span class="o">=</span> <span class="n">XMLVerifier</span><span class="p">()</span><span class="o">.</span><span class="n">verify</span><span class="p">(</span><span class="n">signed_root</span><span class="p">)</span><span class="o">.</span><span class="n">signed_xml</span>
+</pre></div>
+</div>
+<p>To make this example self-sufficient for test purposes:</p>
+<ul class="simple">
+<li><p>Generate a test certificate and key using
+<code class="docutils literal notranslate"><span class="pre">openssl</span> <span class="pre">req</span> <span class="pre">-x509</span> <span class="pre">-sha256</span> <span class="pre">-nodes</span> <span class="pre">-subj</span> <span class="pre">&quot;/CN=test&quot;</span> <span class="pre">-days</span> <span class="pre">1</span> <span class="pre">-newkey</span> <span class="pre">rsa:2048</span> <span class="pre">-keyout</span> <span class="pre">example.key</span> <span class="pre">-out</span> <span class="pre">example.pem</span></code>
+(run <code class="docutils literal notranslate"><span class="pre">yum</span> <span class="pre">install</span> <span class="pre">openssl</span></code> on Red Hat).</p></li>
+<li><p>Pass the <code class="docutils literal notranslate"><span class="pre">x509_cert=cert</span></code> keyword argument to <code class="docutils literal notranslate"><span class="pre">XMLVerifier.verify()</span></code>. (In production, ensure this is replaced with
+the correct configuration for the trusted CA or certificate - this determines which signatures your application trusts.)</p></li>
+</ul>
+<div class="section" id="verifying-saml-assertions">
+<span id="id3"></span><h3>Verifying SAML assertions<a class="headerlink" href="#verifying-saml-assertions" title="Permalink to this headline">¶</a></h3>
+<p>Assuming <code class="docutils literal notranslate"><span class="pre">metadata.xml</span></code> contains SAML metadata for the assertion source:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">lxml</span> <span class="kn">import</span> <span class="n">etree</span>
+<span class="kn">from</span> <span class="nn">base64</span> <span class="kn">import</span> <span class="n">b64decode</span>
+<span class="kn">from</span> <span class="nn">signxml</span> <span class="kn">import</span> <span class="n">XMLVerifier</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;metadata.xml&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
+    <span class="n">cert</span> <span class="o">=</span> <span class="n">etree</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">fh</span><span class="p">)</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;//ds:X509Certificate&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+
+<span class="n">assertion_data</span> <span class="o">=</span> <span class="n">XMLVerifier</span><span class="p">()</span><span class="o">.</span><span class="n">verify</span><span class="p">(</span><span class="n">b64decode</span><span class="p">(</span><span class="n">assertion_body</span><span class="p">),</span> <span class="n">x509_cert</span><span class="o">=</span><span class="n">cert</span><span class="p">)</span><span class="o">.</span><span class="n">signed_xml</span>
+</pre></div>
+</div>
+<div class="admonition-signing-saml-assertions admonition">
+<p class="admonition-title">Signing SAML assertions</p>
+<p>The SAML assertion schema specifies a location for the enveloped XML signature (between <code class="docutils literal notranslate"><span class="pre">&lt;Issuer&gt;</span></code> and
+<code class="docutils literal notranslate"><span class="pre">&lt;Subject&gt;</span></code>). To sign a SAML assertion in a schema-compliant way, insert a signature placeholder tag at that location
+before calling XMLSigner: <code class="docutils literal notranslate"><span class="pre">&lt;ds:Signature</span> <span class="pre">Id=&quot;placeholder&quot;&gt;&lt;/ds:Signature&gt;</span></code>.</p>
+</div>
+<div class="admonition-see-what-is-signed admonition">
+<p class="admonition-title">See what is signed</p>
+<p>It is important to understand and follow the best practice rule of “See what is signed” when verifying XML
+signatures. The gist of this rule is: if your application neglects to verify that the information it trusts is
+what was actually signed, the attacker can supply a valid signature but point you to malicious data that wasn’t signed
+by that signature. Failure to follow this rule can lead to vulnerability against attacks like
+<a class="reference external" href="https://www.usenix.org/system/files/conference/usenixsecurity12/sec12-final91.pdf">SAML signature wrapping</a>.</p>
+<p>In SignXML, you can ensure that the information signed is what you expect to be signed by only trusting the
+data returned by the <code class="docutils literal notranslate"><span class="pre">verify()</span></code> method. The <code class="docutils literal notranslate"><span class="pre">signed_xml</span></code> attribute of the return value is the XML node or string that
+was signed.</p>
+<p><strong>Recommended reading:</strong> <a class="reference external" href="http://www.w3.org/TR/xmldsig-bestpractices/#practices-applications">W3C XML Signature Best Practices for Applications</a>, <a class="reference external" href="https://www.owasp.org/images/2/28/Breaking_SAML_Be_Whoever_You_Want_to_Be_-_Juraj_Somorovsky%2BChristian_Mainka.pdf">OWASP: On Breaking SAML: Be Whoever You Want to Be</a>, <a class="reference external" href="https://duo.com/blog/duo-finds-saml-vulnerabilities-affecting-multiple-implementations">Duo Finds SAML Vulnerabilities Affecting Multiple Implementations</a></p>
+</div>
+<div class="admonition-establish-trust admonition">
+<p class="admonition-title">Establish trust</p>
+<p>If you do not supply any keyword arguments to <code class="docutils literal notranslate"><span class="pre">verify()</span></code>, the default behavior is to trust <strong>any</strong> valid XML
+signature generated using a valid X.509 certificate trusted by your system’s CA store. This means anyone can
+get an SSL certificate and generate a signature that you will trust. To establish trust in the signer, use the
+<code class="docutils literal notranslate"><span class="pre">x509_cert</span></code> argument to specify a certificate that was pre-shared out-of-band (e.g. via SAML metadata, as
+shown in <em>Verifying SAML assertions</em>), or <code class="docutils literal notranslate"><span class="pre">cert_subject_name</span></code> to specify a
+subject name that must be in the signing X.509 certificate given by the signature (verified as if it were a
+domain name), or <code class="docutils literal notranslate"><span class="pre">ca_pem_file</span></code>/<code class="docutils literal notranslate"><span class="pre">ca_path</span></code> to give a custom CA.</p>
+</div>
+</div>
+<div class="section" id="xml-signature-methods-enveloped-detached-enveloping">
+<h3>XML signature methods: enveloped, detached, enveloping<a class="headerlink" href="#xml-signature-methods-enveloped-detached-enveloping" title="Permalink to this headline">¶</a></h3>
+<p>The XML Signature specification defines three ways to compose a signature with the data being signed: enveloped,
+detached, and enveloping signature. Enveloped is the default method. To specify the type of signature that you want to
+generate, pass the <code class="docutils literal notranslate"><span class="pre">method</span></code> argument to <code class="docutils literal notranslate"><span class="pre">sign()</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">signed_root</span> <span class="o">=</span> <span class="n">XMLSigner</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="n">signxml</span><span class="o">.</span><span class="n">methods</span><span class="o">.</span><span class="n">detached</span><span class="p">)</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">cert</span><span class="o">=</span><span class="n">cert</span><span class="p">)</span>
+<span class="n">verified_data</span> <span class="o">=</span> <span class="n">XMLVerifier</span><span class="p">()</span><span class="o">.</span><span class="n">verify</span><span class="p">(</span><span class="n">signed_root</span><span class="p">)</span><span class="o">.</span><span class="n">signed_xml</span>
+</pre></div>
+</div>
+<p>For detached signatures, the code above will use the <code class="docutils literal notranslate"><span class="pre">Id</span></code> or <code class="docutils literal notranslate"><span class="pre">ID</span></code> attribute of <code class="docutils literal notranslate"><span class="pre">root</span></code> to generate a relative URI
+(<code class="docutils literal notranslate"><span class="pre">&lt;Reference</span> <span class="pre">URI=&quot;#value&quot;</span></code>). You can also override the value of <code class="docutils literal notranslate"><span class="pre">URI</span></code> by passing a <code class="docutils literal notranslate"><span class="pre">reference_uri</span></code> argument to
+<code class="docutils literal notranslate"><span class="pre">sign()</span></code>. To verify a detached signature that refers to an external entity, pass a callable resolver in
+<code class="docutils literal notranslate"><span class="pre">XMLVerifier().verify(data,</span> <span class="pre">uri_resolver=...)</span></code>.</p>
+<p>See the <a class="reference external" href="https://signxml.readthedocs.io/en/latest/#id4">API documentation</a> for more.</p>
+</div>
+<div class="section" id="xml-parsing-security-and-compatibility-with-xml-etree-elementtree">
+<h3>XML parsing security and compatibility with <code class="docutils literal notranslate"><span class="pre">xml.etree.ElementTree</span></code><a class="headerlink" href="#xml-parsing-security-and-compatibility-with-xml-etree-elementtree" title="Permalink to this headline">¶</a></h3>
+<p>SignXML uses the <a class="reference external" href="https://github.com/lxml/lxml">lxml</a> ElementTree library, not the
+<a class="reference external" href="https://docs.python.org/3.8/library/xml.etree.elementtree.html">ElementTree from Python’s standard library</a>,
+to work with XML. lxml is used due to its superior resistance to XML attacks, as well as XML canonicalization and
+namespace organization features. It is recommended that you pass XML string input directly to signxml before further
+parsing, and use lxml to work with untrusted XML input in general. If you do pass <code class="docutils literal notranslate"><span class="pre">xml.etree.ElementTree</span></code> objects to
+SignXML, you should be aware of differences in XML namespace handling between the two libraries. See the following
+references for more information:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://lxml.de/FAQ.html#how-do-i-use-lxml-safely-as-a-web-service-endpoint">How do I use lxml safely as a web-service endpoint?</a></p></li>
+<li><p><a class="reference external" href="https://lxml.de/compatibility.html">ElementTree compatibility of lxml.etree</a></p></li>
+<li><p><a class="reference external" href="https://technotes.shemyak.com/posts/xml-signatures-with-python-elementtree">XML Signatures with Python ElementTree</a></p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="authors">
+<h2>Authors<a class="headerlink" href="#authors" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Andrey Kislyuk</p></li>
+</ul>
+</div>
+<div class="section" id="links">
+<h2>Links<a class="headerlink" href="#links" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/XML-Security/signxml">Project home page (GitHub)</a></p></li>
+<li><p><a class="reference external" href="https://signxml.readthedocs.io/en/latest/">Documentation (Read the Docs)</a></p></li>
+<li><p><a class="reference external" href="https://pypi.python.org/pypi/signxml">Package distribution (PyPI)</a></p></li>
+<li><p><a class="reference external" href="https://github.com/XML-Security/signxml/blob/master/Changes.rst">Change log</a></p></li>
+<li><p><a class="reference external" href="https://www.w3.org/TR/?title=xml%20signature">List of W3C XML Signature standards and drafts</a></p></li>
+<li><p><a class="reference external" href="http://www.w3.org/TR/xmldsig-core1">W3C Recommendation: XML Signature Syntax and Processing Version 1.1</a></p></li>
+<li><p><a class="reference external" href="http://www.w3.org/TR/xmldsig-core2">W3C Working Group Note: XML Signature Syntax and Processing Version 2.0</a></p></li>
+<li><p><a class="reference external" href="https://www.w3.org/TR/2013/NOTE-xmlsec-reqs2-20130411/">W3C Working Group Note: XML Security 2.0 Requirements and Design Considerations</a></p></li>
+<li><p><a class="reference external" href="http://www.w3.org/TR/xmldsig-bestpractices/">W3C Working Group Note: XML Signature Best Practices</a></p></li>
+<li><p><a class="reference external" href="http://www.w3.org/Signature/2001/04/05-xmldsig-interop.html">XML-Signature Interoperability</a></p></li>
+<li><p><a class="reference external" href="http://www.w3.org/TR/xmldsig2ed-tests/">W3C Working Group Note: Test Cases for C14N 1.1 and XMLDSig Interoperability</a></p></li>
+<li><p><a class="reference external" href="https://www.aleksey.com/xmlsec/related.html">XMLSec: Related links</a></p></li>
+<li><p><a class="reference external" href="https://www.owasp.org/index.php/SAML_Security_Cheat_Sheet">OWASP SAML Security Cheat Sheet</a></p></li>
+<li><p><a class="reference external" href="https://developer.okta.com/standards/SAML/">Okta Developer Docs: SAML</a></p></li>
+</ul>
+<div class="section" id="bugs">
+<h3>Bugs<a class="headerlink" href="#bugs" title="Permalink to this headline">¶</a></h3>
+<p>Please report bugs, issues, feature requests, etc. on <a class="reference external" href="https://github.com/XML-Security/signxml/issues">GitHub</a>.</p>
+</div>
+</div>
+<div class="section" id="license">
+<h2>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h2>
+<p>Licensed under the terms of the <a class="reference external" href="http://www.apache.org/licenses/LICENSE-2.0">Apache License, Version 2.0</a>.</p>
+<a class="reference external image-reference" href="https://github.com/XML-Security/signxml/actions"><img alt="https://github.com/XML-Security/signxml/workflows/Test%20suite/badge.svg" src="https://github.com/XML-Security/signxml/workflows/Test%20suite/badge.svg" /></a>
+<a class="reference external image-reference" href="https://codecov.io/github/XML-Security/signxml?branch=master"><img alt="https://codecov.io/github/XML-Security/signxml/coverage.svg?branch=master" src="https://codecov.io/github/XML-Security/signxml/coverage.svg?branch=master" /></a>
+<a class="reference external image-reference" href="https://pypi.python.org/pypi/signxml"><img alt="https://img.shields.io/pypi/v/signxml.svg" src="https://img.shields.io/pypi/v/signxml.svg" /></a>
+<a class="reference external image-reference" href="https://pypi.python.org/pypi/signxml"><img alt="https://img.shields.io/pypi/l/signxml.svg" src="https://img.shields.io/pypi/l/signxml.svg" /></a>
+<a class="reference external image-reference" href="https://signxml.readthedocs.io/"><img alt="https://readthedocs.org/projects/signxml/badge/?version=latest" src="https://readthedocs.org/projects/signxml/badge/?version=latest" /></a>
+</div>
+</div>
+<div class="section" id="id5">
+<h1>API documentation<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-signxml"></span><dl class="py class">
+<dt class="sig sig-object py" id="signxml.VerifyResult">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">signxml.</span></span><span class="sig-name descname"><span class="pre">VerifyResult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">signed_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signed_xml</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signature_xml</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/signxml.html#VerifyResult"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#signxml.VerifyResult" title="Permalink to this definition">¶</a></dt>
+<dd><p>The results of a verification return the signed data, the signed xml and the signature xml</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>signed_data</strong> – The binary data as it was signed (literally)</p></li>
+<li><p><strong>signed_xml</strong> (<em>ElementTree</em>) – The signed data parsed as XML (or None if parsing failed)</p></li>
+<li><p><strong>signature_xml</strong> – The signature element parsed as XML</p></li>
+</ul>
+</dd>
+</dl>
+<p>This class is a namedtuple representing structured data returned by <code class="docutils literal notranslate"><span class="pre">signxml.XMLVerifier.verify()</span></code>. As with any
+namedtuple, elements of the return value can be accessed as attributes. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">verified_data</span> <span class="o">=</span> <span class="n">signxml</span><span class="o">.</span><span class="n">XMLVerifier</span><span class="p">()</span><span class="o">.</span><span class="n">verify</span><span class="p">(</span><span class="n">input_data</span><span class="p">)</span><span class="o">.</span><span class="n">signed_xml</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="signxml.XMLSigner">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">signxml.</span></span><span class="sig-name descname"><span class="pre">XMLSigner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">method=&lt;Methods.enveloped:</span> <span class="pre">1&gt;</span></em>, <em class="sig-param"><span class="pre">signature_algorithm='rsa-sha256'</span></em>, <em class="sig-param"><span class="pre">digest_algorithm='sha256'</span></em>, <em class="sig-param"><span class="pre">c14n_algorithm='http://www.w3.org/2006/12/xml-c14n11'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/signxml.html#XMLSigner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#signxml.XMLSigner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new XML Signature Signer object, which can be used to hold configuration information and sign multiple
+pieces of data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>method</strong> (<a class="reference internal" href="#signxml.methods" title="signxml.methods"><code class="xref py py-class docutils literal notranslate"><span class="pre">methods</span></code></a>) – <code class="docutils literal notranslate"><span class="pre">signxml.methods.enveloped</span></code>, <code class="docutils literal notranslate"><span class="pre">signxml.methods.enveloping</span></code>, or <code class="docutils literal notranslate"><span class="pre">signxml.methods.detached</span></code>. See the list
+of signature types under <a class="reference external" href="http://www.w3.org/TR/xmldsig-core2/#sec-Definitions">XML Signature Syntax and Processing Version 2.0, Definitions</a>.</p></li>
+<li><p><strong>signature_algorithm</strong> (<em>string</em>) – Algorithm that will be used to generate the signature, composed of the signature algorithm and the digest
+algorithm, separated by a hyphen. All algorithm IDs listed under the <a class="reference external" href="http://www.w3.org/TR/xmldsig-core1/#sec-AlgID">Algorithm Identifiers and
+Implementation Requirements</a> section of the XML Signature
+1.1 standard are supported.</p></li>
+<li><p><strong>digest_algorithm</strong> (<em>string</em>) – <p>Algorithm that will be used to hash the data during signature generation. All algorithm IDs
+listed under the <a class="reference external" href="http://www.w3.org/TR/xmldsig-core1/#sec-AlgID">Algorithm Identifiers and Implementation Requirements</a> section of the XML Signature 1.1 standard are supported.</p>
+</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="signxml.XMLSigner.sign">
+<span class="sig-name descname"><span class="pre">sign</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">passphrase</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cert</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference_uri</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_attribute</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">always_add_key_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload_inclusive_ns_prefixes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">frozenset({})</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signature_inclusive_ns_prefixes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">frozenset({})</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">signature_properties</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/signxml.html#XMLSigner.sign"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#signxml.XMLSigner.sign" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sign the data and return the root element of the resulting XML tree.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>String</em><em>, </em><em>file-like object</em><em>, or </em><em>XML ElementTree Element API compatible object</em>) – Data to sign</p></li>
+<li><p><strong>key</strong> (string, bytes, <code class="xref py py-class docutils literal notranslate"><span class="pre">cryptography.hazmat.primitives.interfaces.RSAPrivateKey</span></code>,
+<code class="xref py py-class docutils literal notranslate"><span class="pre">cryptography.hazmat.primitives.interfaces.DSAPrivateKey</span></code>, or
+<code class="xref py py-class docutils literal notranslate"><span class="pre">cryptography.hazmat.primitives.interfaces.EllipticCurvePrivateKey</span></code> object) – Key to be used for signing. When signing with a certificate or RSA/DSA/ECDSA key, this can be a string/bytes
+containing a PEM-formatted key, or a <code class="xref py py-class docutils literal notranslate"><span class="pre">cryptography.hazmat.primitives.interfaces.RSAPrivateKey</span></code>,
+<code class="xref py py-class docutils literal notranslate"><span class="pre">cryptography.hazmat.primitives.interfaces.DSAPrivateKey</span></code>, or
+<code class="xref py py-class docutils literal notranslate"><span class="pre">cryptography.hazmat.primitives.interfaces.EllipticCurvePrivateKey</span></code> object. When signing with a
+HMAC, this should be a string containing the shared secret.</p></li>
+<li><p><strong>passphrase</strong> (<em>string</em>) – Passphrase to use to decrypt the key, if any.</p></li>
+<li><p><strong>cert</strong> (<em>string</em><em>, </em><em>array of strings</em><em>, or </em><em>array of OpenSSL.crypto.X509 objects</em>) – X.509 certificate to use for signing. This should be a string containing a PEM-formatted certificate, or an
+array of strings or OpenSSL.crypto.X509 objects containing the certificate and a chain of intermediate
+certificates.</p></li>
+<li><p><strong>reference_uri</strong> (<em>string</em><em> or </em><em>list</em>) – Custom reference URI or list of reference URIs to incorporate into the signature. When <code class="docutils literal notranslate"><span class="pre">method</span></code> is set to
+<code class="docutils literal notranslate"><span class="pre">detached</span></code> or <code class="docutils literal notranslate"><span class="pre">enveloped</span></code>, reference URIs are set to this value and only the referenced elements are
+signed.</p></li>
+<li><p><strong>key_name</strong> (<em>string</em>) – Add a KeyName element in the KeyInfo element that may be used by the signer to communicate a
+key identifier to the recipient. Typically, KeyName contains an identifier related to the key pair used to
+sign the message.</p></li>
+<li><p><strong>key_info</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">lxml.etree.Element</span></code>) – A custom KeyInfo element to insert in the signature. Use this to supply <code class="docutils literal notranslate"><span class="pre">&lt;wsse:SecurityTokenReference&gt;</span></code>
+or other custom key references. An example value can be found here:
+<a class="reference external" href="https://github.com/XML-Security/signxml/blob/master/test/wsse_keyinfo.xml">https://github.com/XML-Security/signxml/blob/master/test/wsse_keyinfo.xml</a></p></li>
+<li><p><strong>id_attribute</strong> (<em>string</em>) – Name of the attribute whose value <code class="docutils literal notranslate"><span class="pre">URI</span></code> refers to. By default, SignXML will search for “Id”, then “ID”.</p></li>
+<li><p><strong>always_add_key_value</strong> (<em>boolean</em>) – Write the key value to the KeyInfo element even if a X509 certificate is present. Use of this parameter
+is discouraged, as it introduces an ambiguity and a security hazard. The public key used to sign the
+document is already encoded in the certificate (which is in X509Data), so the verifier must either ignore
+KeyValue or make sure it matches what’s in the certificate. This parameter is provided for compatibility
+purposes only.</p></li>
+<li><p><strong>payload_inclusive_ns_prefixes</strong> – Provide a list of XML namespace prefixes whose declarations should be preserved when canonicalizing the
+content referenced by the signature (<strong>InclusiveNamespaces PrefixList</strong>).</p></li>
+<li><p><strong>signature_inclusive_ns_prefixes</strong> (<em>string</em>) – Provide a list of XML namespace prefixes whose declarations should be preserved when canonicalizing the
+signature itself (<strong>InclusiveNamespaces PrefixList</strong>).</p></li>
+<li><p><strong>signature_properties</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">lxml.etree.Element</span></code> or list of :py:class:<a href="#id7"><span class="problematic" id="id8">`</span></a>lxml.etree.Element`s) – One or more Elements that are to be included in the SignatureProperies section when using the detached
+method.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">lxml.etree.Element</span></code> object representing the root of the XML tree containing the signature and
+the payload data.</p>
+</dd>
+</dl>
+<p>To specify the location of an enveloped signature within <strong>data</strong>, insert a
+<code class="docutils literal notranslate"><span class="pre">&lt;ds:Signature</span> <span class="pre">Id=&quot;placeholder&quot;&gt;&lt;/ds:Signature&gt;</span></code> element in <strong>data</strong> (where
+“ds” is the “<a class="reference external" href="http://www.w3.org/2000/09">http://www.w3.org/2000/09</a>/xmldsig#” namespace). This element will
+be replaced by the generated signature, and excised when generating the digest.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="signxml.XMLVerifier">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">signxml.</span></span><span class="sig-name descname"><span class="pre">XMLVerifier</span></span><a class="reference internal" href="_modules/signxml.html#XMLVerifier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#signxml.XMLVerifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new XML Signature Verifier object, which can be used to hold configuration information and verify multiple
+pieces of data.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="signxml.XMLVerifier.verify">
+<span class="sig-name descname"><span class="pre">verify</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">require_x509</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x509_cert</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cert_subject_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cert_resolver</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ca_pem_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ca_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hmac_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validate_schema</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parser</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uri_resolver</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_attribute</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expect_references</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_ambiguous_key_info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/signxml.html#XMLVerifier.verify"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#signxml.XMLVerifier.verify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verify the XML signature supplied in the data and return the XML node signed by the signature, or raise an
+exception if the signature is not valid. By default, this requires the signature to be generated using a valid
+X.509 certificate. To enable other means of signature validation, set the <strong>require_x509</strong> argument to <cite>False</cite>.</p>
+<div class="admonition-see-what-is-signed admonition">
+<p class="admonition-title">See what is signed</p>
+<p>It is important to understand and follow the best practice rule of “See what is signed” when verifying XML
+signatures. The gist of this rule is: if your application neglects to verify that the information it trusts is
+what was actually signed, the attacker can supply a valid signature but point you to malicious data that wasn’t
+signed by that signature.</p>
+<p>In SignXML, you can ensure that the information signed is what you expect to be signed by only trusting the
+data returned by the <code class="docutils literal notranslate"><span class="pre">verify()</span></code> method. The return value is the XML node or string that was signed. Also,
+depending on the canonicalization method used by the signature, comments in the XML data may not be subject to
+signing, so may need to be untrusted. If so, they are excised from the return value of <code class="docutils literal notranslate"><span class="pre">verify()</span></code>.</p>
+<p><strong>Recommended reading:</strong> <a class="reference external" href="http://www.w3.org/TR/xmldsig-bestpractices/#practices-applications">http://www.w3.org/TR/xmldsig-bestpractices/#practices-applications</a></p>
+</div>
+<div class="admonition-establish-trust admonition">
+<p class="admonition-title">Establish trust</p>
+<p>If you do not supply any keyword arguments to <code class="docutils literal notranslate"><span class="pre">verify()</span></code>, the default behavior is to trust <strong>any</strong> valid XML
+signature generated using a valid X.509 certificate trusted by your system’s CA store. This means anyone can
+get an SSL certificate and generate a signature that you will trust. To establish trust in the signer, use the
+<code class="docutils literal notranslate"><span class="pre">x509_cert</span></code> argument to specify a certificate that was pre-shared out-of-band (e.g. via SAML metadata, as
+shown in <a class="reference internal" href="#verifying-saml-assertions"><span class="std std-ref">Verifying SAML assertions</span></a>), or <code class="docutils literal notranslate"><span class="pre">cert_subject_name</span></code> to specify a
+subject name that must be in the signing X.509 certificate given by the signature (verified as if it were a
+domain name), or <code class="docutils literal notranslate"><span class="pre">ca_pem_file</span></code>/<code class="docutils literal notranslate"><span class="pre">ca_path</span></code> to give a custom CA.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>String</em><em>, </em><em>file-like object</em><em>, or </em><em>XML ElementTree Element API compatible object</em>) – Signature data to verify</p></li>
+<li><p><strong>require_x509</strong> (<em>boolean</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, a valid X.509 certificate-based signature with an established chain of trust is required to
+pass validation. If <code class="docutils literal notranslate"><span class="pre">False</span></code>, other types of valid signatures (e.g. HMAC or RSA public key) are accepted.</p></li>
+<li><p><strong>x509_cert</strong> (<em>string</em><em> or </em><em>OpenSSL.crypto.X509</em>) – A trusted external X.509 certificate, given as a PEM-formatted string or OpenSSL.crypto.X509 object, to use
+for verification. Overrides any X.509 certificate information supplied by the signature. If left set to
+<code class="docutils literal notranslate"><span class="pre">None</span></code>, requires that the signature supply a valid X.509 certificate chain that validates against the
+known certificate authorities. Implies <strong>require_x509=True</strong>.</p></li>
+<li><p><strong>cert_subject_name</strong> (<em>string</em>) – Subject Common Name to check the signing X.509 certificate against. Implies <strong>require_x509=True</strong>.</p></li>
+<li><p><strong>cert_resolver</strong> (<em>callable</em>) – Function to use to resolve trusted X.509 certificates when X509IssuerSerial and X509Digest references are
+found in the signature. The function is called with the keyword arguments <code class="docutils literal notranslate"><span class="pre">x509_issuer_name</span></code>,
+<code class="docutils literal notranslate"><span class="pre">x509_serial_number</span></code> and <code class="docutils literal notranslate"><span class="pre">x509_digest</span></code>, and is expected to return an iterable of one or more
+strings containing a PEM-formatted certificate and a chain of intermediate certificates, if needed.
+Implies <strong>require_x509=True</strong>.</p></li>
+<li><p><strong>ca_pem_file</strong> (<em>string</em><em> or </em><em>bytes</em>) – Filename of a PEM file containing certificate authority information to use when verifying certificate-based
+signatures.</p></li>
+<li><p><strong>ca_path</strong> (<em>string</em>) – Path to a directory containing PEM-formatted certificate authority files to use when verifying
+certificate-based signatures. If neither <strong>ca_pem_file</strong> nor <strong>ca_path</strong> is given, the Mozilla CA bundle
+provided by <code class="xref py py-mod docutils literal notranslate"><span class="pre">certifi</span></code> will be loaded.</p></li>
+<li><p><strong>hmac_key</strong> (<em>string</em>) – If using HMAC, a string containing the shared secret.</p></li>
+<li><p><strong>validate_schema</strong> (<em>boolean</em>) – Whether to validate <strong>data</strong> against the XML Signature schema.</p></li>
+<li><p><strong>parser</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">lxml.etree.XMLParser</span></code> compatible parser) – Custom XML parser instance to use when parsing <strong>data</strong>. The default parser arguments used by SignXML are:
+<code class="docutils literal notranslate"><span class="pre">resolve_entities=False</span></code>. See <a class="reference external" href="https://lxml.de/FAQ.html#how-do-i-use-lxml-safely-as-a-web-service-endpoint">https://lxml.de/FAQ.html#how-do-i-use-lxml-safely-as-a-web-service-endpoint</a>.</p></li>
+<li><p><strong>uri_resolver</strong> (<em>callable</em>) – Function to use to resolve reference URIs that don’t start with “#”. The function is called with a single
+string argument containing the URI to be resolved, and is expected to return a lxml.etree node or string.</p></li>
+<li><p><strong>id_attribute</strong> (<em>string</em>) – Name of the attribute whose value <code class="docutils literal notranslate"><span class="pre">URI</span></code> refers to. By default, SignXML will search for “Id”, then “ID”.</p></li>
+<li><p><strong>expect_references</strong> (<em>int</em><em> or </em><em>boolean</em>) – Number of references to expect in the signature. If this is not 1, an array of VerifyResults is returned.
+If set to a non-integer, any number of references is accepted (otherwise a mismatch raises an error).</p></li>
+<li><p><strong>ignore_ambiguous_key_info</strong> (<em>boolean</em>) – Ignore the presence of a KeyValue element when X509Data is present in the signature and used for verifying.
+The presence of both elements is an ambiguity and a security hazard. The public key used to sign the
+document is already encoded in the certificate (which is in X509Data), so the verifier must either ignore
+KeyValue or make sure it matches what’s in the certificate. SignXML does not implement the functionality
+necessary to match the keys, and throws an InvalidInput error instead. Set this to True to bypass the error
+and validate the signature using X509Data only.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">cryptography.exceptions.InvalidSignature</span></code></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>VerifyResult object with the signed data, signed xml and signature xml</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#signxml.VerifyResult" title="signxml.VerifyResult">VerifyResult</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="signxml.methods">
+<span class="sig-prename descclassname"><span class="pre">signxml.</span></span><span class="sig-name descname"><span class="pre">methods</span></span><a class="headerlink" href="#signxml.methods" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">signxml.Methods</span></code></p>
+</dd></dl>
+
+</div>
+<div class="section" id="release-notes">
+<h1>Release Notes<a class="headerlink" href="#release-notes" title="Permalink to this headline">¶</a></h1>
+</div>
+<div class="section" id="changes-for-v2-9-0-2021-10-08">
+<h1>Changes for v2.9.0 (2021-10-08)<a class="headerlink" href="#changes-for-v2-9-0-2021-10-08" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Unlimit cryptography version constraint. Fixes #177</p></li>
+<li><p>Bump pyOpenSSL compat range; add dep version strategy note</p></li>
+</ul>
+</div>
+<div class="section" id="changes-for-v2-8-2-2021-05-14">
+<h1>Changes for v2.8.2 (2021-05-14)<a class="headerlink" href="#changes-for-v2-8-2-2021-05-14" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Allow the combination of X509Data and KeyValue when they represent
+the same public key (#169)</p></li>
+<li><p>Use self.namespaces signature properties “Object” element (#167)</p></li>
+</ul>
+</div>
+<div class="section" id="changes-for-v2-8-1-2020-10-29">
+<h1>Changes for v2.8.1 (2020-10-29)<a class="headerlink" href="#changes-for-v2-8-1-2020-10-29" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Allow cryptography versions &gt;3 (but &lt;4) (#164)</p></li>
+<li><p>Add support for adding Signature Properties to a detached signature
+(#160)</p></li>
+</ul>
+</div>
+<div class="section" id="changes-for-v2-8-0-2020-06-20">
+<h1>Changes for v2.8.0 (2020-06-20)<a class="headerlink" href="#changes-for-v2-8-0-2020-06-20" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Compare raw digest bytes instead of base64 encoded digests. Fixes
+#155</p></li>
+<li><p>Initial X509IssuerSerial/X509Digest support</p></li>
+<li><p>Support custom inclusive_ns_prefixes when signing</p></li>
+</ul>
+</div>
+<div class="section" id="changes-for-v2-7-3-2020-06-10">
+<h1>Changes for v2.7.3 (2020-06-10)<a class="headerlink" href="#changes-for-v2-7-3-2020-06-10" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Fix ECDSA signature encoding/decoding (#150)</p></li>
+<li><p>Add InclusiveNamespaces PrefixList support for SignedInfo</p></li>
+<li><p>Test and documentation improvements</p></li>
+</ul>
+</div>
+<div class="section" id="changes-for-v2-7-2-2019-12-01">
+<h1>Changes for v2.7.2 (2019-12-01)<a class="headerlink" href="#changes-for-v2-7-2-2019-12-01" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Relax dependency version range on eight</p></li>
+<li><p>Update dependency installation documentation</p></li>
+<li><p>XMLSigner.sign(): add always_add_key_value kwarg to include both
+X509Data and KeyValue for ill-defined signing applications</p></li>
+<li><p>XMLVerifier.verify(): reject signatures that contain both X509Data
+and KeyValue by default; add ignore_ambiguous_key_info kwarg to
+bypass</p></li>
+</ul>
+</div>
+<div class="section" id="changes-for-v2-7-1-2019-11-30">
+<h1>Changes for v2.7.1 (2019-11-30)<a class="headerlink" href="#changes-for-v2-7-1-2019-11-30" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Accept PEM keys as either str or bytes</p></li>
+</ul>
+</div>
+<div class="section" id="changes-for-v2-7-0-2019-11-30">
+<h1>Changes for v2.7.0 (2019-11-30)<a class="headerlink" href="#changes-for-v2-7-0-2019-11-30" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Drop defusedxml dependency; add security notes</p></li>
+<li><p>Add missing c14n transform for enveloping and detached methods (#107)</p></li>
+<li><p>Relax pyOpenSSL dependency version range to include version 19</p></li>
+<li><p>Apply transforms and digest calculations to copies of root. Closes
+#125. (#126)</p></li>
+<li><p>Documentation and test improvements</p></li>
+</ul>
+</div>
+<div class="section" id="changes-for-v2-6-0-2019-01-10">
+<h1>Changes for v2.6.0 (2019-01-10)<a class="headerlink" href="#changes-for-v2-6-0-2019-01-10" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Update dependencies to baseline on Ubuntu 18.04</p></li>
+<li><p>Clarify documentation of Ubuntu installation dependencies</p></li>
+<li><p>List ipaddress as a dependency</p></li>
+<li><p>Strip PEM header from OpenSSL.crypto.X509 cert</p></li>
+<li><p>Doc updates: dependency versions, standard links</p></li>
+<li><p>Fix cryptography deprecation warnings. Closes #108</p></li>
+<li><p>Allow URI attribute of Reference to be absent (#102)</p></li>
+</ul>
+</div>
+<div class="section" id="changes-for-v2-5-2-2017-12-07">
+<h1>Changes for v2.5.2 (2017-12-07)<a class="headerlink" href="#changes-for-v2-5-2-2017-12-07" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Fix release</p></li>
+</ul>
+</div>
+<div class="section" id="changes-for-v2-5-1-2017-12-07">
+<h1>Changes for v2.5.1 (2017-12-07)<a class="headerlink" href="#changes-for-v2-5-1-2017-12-07" title="Permalink to this headline">¶</a></h1>
+<p>Fix release</p>
+</div>
+<div class="section" id="changes-for-v2-5-0-2017-12-07">
+<h1>Changes for v2.5.0 (2017-12-07)<a class="headerlink" href="#changes-for-v2-5-0-2017-12-07" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Relax dependency version constraints.</p></li>
+<li><p>Drop Python 3.3 support.</p></li>
+<li><p>Support for PEM files with CR+LF line endings (#93).</p></li>
+</ul>
+</div>
+<div class="section" id="changes-for-v2-4-0-2017-07-10">
+<h1>Changes for v2.4.0 (2017-07-10)<a class="headerlink" href="#changes-for-v2-4-0-2017-07-10" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Import asn1crypto on demand</p></li>
+<li><p>Allow newer versions of cryptography library (#89)</p></li>
+</ul>
+</div>
+<div class="section" id="changes-for-v2-3-0-2017-04-24">
+<h1>Changes for v2.3.0 (2017-04-24)<a class="headerlink" href="#changes-for-v2-3-0-2017-04-24" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Add explicit dependency on asn1crypto to setup.py (#87)</p></li>
+<li><p>Remove use of Exception.message for py3 compatibility. Closes #36
+(#86)</p></li>
+<li><p>Use asn1crypto instead of pyasn1 to match cryptography lib (#85)</p></li>
+<li><p>Pin to major version of lxml instead of minor</p></li>
+<li><p>Allow newer versions of several requirements (#84)</p></li>
+<li><p>Allow newer version of eight library (#83)</p></li>
+</ul>
+</div>
+<div class="section" id="changes-for-v2-2-4-2017-03-19">
+<h1>Changes for v2.2.4 (2017-03-19)<a class="headerlink" href="#changes-for-v2-2-4-2017-03-19" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Documentation and test fixes</p></li>
+</ul>
+</div>
+<div class="section" id="changes-for-v2-2-3-2016-12-20">
+<h1>Changes for v2.2.3 (2016-12-20)<a class="headerlink" href="#changes-for-v2-2-3-2016-12-20" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Release automation: parse repo name correctly</p></li>
+</ul>
+</div>
+<div class="section" id="changes-for-v2-2-2-2016-12-20">
+<h1>Changes for v2.2.2 (2016-12-20)<a class="headerlink" href="#changes-for-v2-2-2-2016-12-20" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Expand supported cryptography version range. Fixes #74</p></li>
+<li><p>Documentation and release automation improvements</p></li>
+</ul>
+</div>
+<div class="section" id="changes-for-v2-2-1-2016-09-26">
+<h1>Changes for v2.2.1 (2016-09-26)<a class="headerlink" href="#changes-for-v2-2-1-2016-09-26" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Fix handling of reference URIs in detached signing</p></li>
+<li><p>Test infra fixes</p></li>
+</ul>
+</div>
+<div class="section" id="changes-for-v2-2-0-2016-09-25">
+<h1>Changes for v2.2.0 (2016-09-25)<a class="headerlink" href="#changes-for-v2-2-0-2016-09-25" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Support custom key info when signing</p></li>
+<li><p>Initial elements of ws-security support</p></li>
+<li><p>Support signing and verifying multiple references</p></li>
+</ul>
+</div>
+<div class="section" id="changes-for-v2-1-4-2016-09-18">
+<h1>Changes for v2.1.4 (2016-09-18)<a class="headerlink" href="#changes-for-v2-1-4-2016-09-18" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Only sign the referenced element when passed reference_uri (thanks
+to &#64;soby).</p></li>
+<li><p>Add CN validation - instead of a full X.509 certificate, it is now
+possible to pass a common name that will be matched against the CN of
+a cert trusted by the CA store.</p></li>
+<li><p>Order-agnostic cert chain validation and friendlier ingestion of cert
+chains.</p></li>
+<li><p>Minor/internal changes; packaging fix for 2.1.0</p></li>
+</ul>
+</div>
+<div class="section" id="changes-for-v2-1-0-2016-09-18">
+<h1>Changes for v2.1.0 (2016-09-18)<a class="headerlink" href="#changes-for-v2-1-0-2016-09-18" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Pre-release; see notes for v2.1.4</p></li>
+</ul>
+<div class="section" id="version-2-0-0-2016-08-05">
+<h2>Version 2.0.0 (2016-08-05)<a class="headerlink" href="#version-2-0-0-2016-08-05" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Major API change: signxml.xmldsig(data).sign() -&gt; signxml.XMLSigner().sign(data)</p></li>
+<li><p>Major API change: signxml.xmldsig(data).verify() -&gt; signxml.XMLVerifier().verify(data)</p></li>
+<li><p>Signer and verifier objects now carry no data-specific state; instead carry system configuration state that is
+expected to be reused</p></li>
+<li><p>Signer and verifier objects should now be safe to reuse in reentrant environments</p></li>
+<li><p>Internal architecture changes to improve modularity and eliminate data-specific latent state and side effects</p></li>
+</ul>
+</div>
+<div class="section" id="version-1-0-2-2016-08-01">
+<h2>Version 1.0.2 (2016-08-01)<a class="headerlink" href="#version-1-0-2-2016-08-01" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Update xmlenc namespaces for downstream encryptxml support</p></li>
+</ul>
+</div>
+<div class="section" id="version-1-0-1-2016-07-14">
+<h2>Version 1.0.1 (2016-07-14)<a class="headerlink" href="#version-1-0-1-2016-07-14" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Packaging fix: remove stray .pyc file</p></li>
+</ul>
+</div>
+<div class="section" id="version-1-0-0-2016-04-08">
+<h2>Version 1.0.0 (2016-04-08)<a class="headerlink" href="#version-1-0-0-2016-04-08" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Major API change: Return signature information in verify() return value (#41, #50). Thanks to &#64;klondi.</p></li>
+<li><p>Major API change: Excise signature node from verify() return value to avoid possibly returning untrusted data (#47). Thanks to &#64;klondi.</p></li>
+</ul>
+</div>
+<div class="section" id="version-0-6-0-2016-03-24">
+<h2>Version 0.6.0 (2016-03-24)<a class="headerlink" href="#version-0-6-0-2016-03-24" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Remove signature nodes appropriately (#46). Thanks to &#64;klondi.</p></li>
+<li><p>Expand Travis CI test to include flake8 linter.</p></li>
+</ul>
+</div>
+<div class="section" id="version-0-5-0-2016-03-02">
+<h2>Version 0.5.0 (2016-03-02)<a class="headerlink" href="#version-0-5-0-2016-03-02" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Add support for using a KeyName element within the KeyInfo block (#38). Thanks to &#64;Pelleplutt.</p></li>
+<li><p>Update cryptography dependency</p></li>
+<li><p>Expand Travis CI test matrix to include OS X</p></li>
+</ul>
+</div>
+<div class="section" id="version-0-4-6-2015-11-28">
+<h2>Version 0.4.6 (2015-11-28)<a class="headerlink" href="#version-0-4-6-2015-11-28" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Python 3.5 compatibility fix: move enum34 into conditional dependencies (#37). Thanks to &#64;agronholm.</p></li>
+</ul>
+</div>
+<div class="section" id="version-0-4-5-2015-11-08">
+<h2>Version 0.4.5 (2015-11-08)<a class="headerlink" href="#version-0-4-5-2015-11-08" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Support enveloped signatures nested at arbitrary levels beneath root element (#32, #33). Thanks to &#64;jmindek.</p></li>
+<li><p>Update certifi, cryptography dependencies</p></li>
+</ul>
+</div>
+<div class="section" id="version-0-4-4-2015-08-07">
+<h2>Version 0.4.4 (2015-08-07)<a class="headerlink" href="#version-0-4-4-2015-08-07" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Handle xml.etree.ElementTree nodes as input (previously these would cause a crash, despite the documentation suggesting otherwise). Closes #19, thanks to &#64;nickcash.</p></li>
+</ul>
+</div>
+<div class="section" id="version-0-4-3-2015-07-26">
+<h2>Version 0.4.3 (2015-07-26)<a class="headerlink" href="#version-0-4-3-2015-07-26" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Do not open schema file in text mode when parsing XML (closes #18, thanks to &#64;nick210)</p></li>
+<li><p>Update cryptography dependency</p></li>
+</ul>
+</div>
+<div class="section" id="version-0-4-2-2015-04-24">
+<h2>Version 0.4.2 (2015-04-24)<a class="headerlink" href="#version-0-4-2-2015-04-24" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Add support for parameterizable signature namespace (PR #12, thanks to &#64;ldnunes)</p></li>
+<li><p>Update cryptography dependency</p></li>
+</ul>
+</div>
+<div class="section" id="version-0-4-1-2015-04-21">
+<h2>Version 0.4.1 (2015-04-21)<a class="headerlink" href="#version-0-4-1-2015-04-21" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Add support for detached signatures (closes #3)</p></li>
+<li><p>Update pyOpenSSL dependency; use X509StoreContext.verify_certificate()</p></li>
+</ul>
+</div>
+<div class="section" id="version-0-4-0-2015-03-08">
+<h2>Version 0.4.0 (2015-03-08)<a class="headerlink" href="#version-0-4-0-2015-03-08" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Use pyasn1 for DER encoding and decoding, eliminating some DSA signature verification failures</p></li>
+</ul>
+</div>
+<div class="section" id="version-0-3-9-2015-02-04">
+<h2>Version 0.3.9 (2015-02-04)<a class="headerlink" href="#version-0-3-9-2015-02-04" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Do not distribute tests in source archive</p></li>
+</ul>
+</div>
+<div class="section" id="version-0-3-7-2015-02-04">
+<h2>Version 0.3.7 (2015-02-04)<a class="headerlink" href="#version-0-3-7-2015-02-04" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Configurable id attribute name for verifying non-standard internal object references, e.g. ADFS (closes #6)</p></li>
+</ul>
+</div>
+<div class="section" id="version-0-3-6-2015-01-10">
+<h2>Version 0.3.6 (2015-01-10)<a class="headerlink" href="#version-0-3-6-2015-01-10" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Python 3 compatibility fixes</p></li>
+<li><p>Fix test matrix (Python version configuration) in Travis</p></li>
+</ul>
+</div>
+<div class="section" id="version-0-3-5-2014-12-22">
+<h2>Version 0.3.5 (2014-12-22)<a class="headerlink" href="#version-0-3-5-2014-12-22" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Refactor application of enveloped signature transforms</p></li>
+<li><p>Support base64 transform</p></li>
+<li><p>Support application of different canonicalization algorithms to signature and payload (closes #1)</p></li>
+</ul>
+</div>
+<div class="section" id="version-0-3-4-2014-12-14">
+<h2>Version 0.3.4 (2014-12-14)<a class="headerlink" href="#version-0-3-4-2014-12-14" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Add support for exclusive canonicalization with InclusiveNamespaces PrefixList attribute</p></li>
+</ul>
+</div>
+<div class="section" id="version-0-3-3-2014-12-13">
+<h2>Version 0.3.3 (2014-12-13)<a class="headerlink" href="#version-0-3-3-2014-12-13" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Overhaul support of canonicalization algorithms</p></li>
+</ul>
+</div>
+<div class="section" id="version-0-3-2-2014-12-11">
+<h2>Version 0.3.2 (2014-12-11)<a class="headerlink" href="#version-0-3-2-2014-12-11" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Fix bug in enveloped signature canonicalization of namespace prefixes</p></li>
+</ul>
+</div>
+<div class="section" id="version-0-3-1-2014-10-17">
+<h2>Version 0.3.1 (2014-10-17)<a class="headerlink" href="#version-0-3-1-2014-10-17" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Fix bug in enveloped signature excision</p></li>
+</ul>
+</div>
+<div class="section" id="version-0-3-0-2014-10-16">
+<h2>Version 0.3.0 (2014-10-16)<a class="headerlink" href="#version-0-3-0-2014-10-16" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Allow location of enveloped signature to be specified</p></li>
+</ul>
+</div>
+<div class="section" id="version-0-2-9-2014-10-14">
+<h2>Version 0.2.9 (2014-10-14)<a class="headerlink" href="#version-0-2-9-2014-10-14" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Use exclusive c14n when signing</p></li>
+</ul>
+</div>
+<div class="section" id="version-0-2-8-2014-10-13">
+<h2>Version 0.2.8 (2014-10-13)<a class="headerlink" href="#version-0-2-8-2014-10-13" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Namespace all tags when generating signature</p></li>
+</ul>
+</div>
+<div class="section" id="version-0-2-7-2014-10-13">
+<h2>Version 0.2.7 (2014-10-13)<a class="headerlink" href="#version-0-2-7-2014-10-13" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Switch default signing method to enveloped signature</p></li>
+</ul>
+</div>
+<div class="section" id="version-0-2-6-2014-10-13">
+<h2>Version 0.2.6 (2014-10-13)<a class="headerlink" href="#version-0-2-6-2014-10-13" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Fix typo in ns prefixing code</p></li>
+</ul>
+</div>
+<div class="section" id="version-0-2-5-2014-10-13">
+<h2>Version 0.2.5 (2014-10-13)<a class="headerlink" href="#version-0-2-5-2014-10-13" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Fix handling of DER sequences in DSA key serialization</p></li>
+<li><p>Parameterize excision with ns prefix</p></li>
+</ul>
+</div>
+<div class="section" id="version-0-2-4-2014-10-12">
+<h2>Version 0.2.4 (2014-10-12)<a class="headerlink" href="#version-0-2-4-2014-10-12" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Fix excision with ns prefix</p></li>
+</ul>
+</div>
+<div class="section" id="version-0-2-3-2014-10-12">
+<h2>Version 0.2.3 (2014-10-12)<a class="headerlink" href="#version-0-2-3-2014-10-12" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Fixes to c14n of enveloped signatures</p></li>
+<li><p>Expand tests to use the XML Signature interoperability test suite</p></li>
+</ul>
+</div>
+<div class="section" id="version-0-2-2-2014-10-04">
+<h2>Version 0.2.2 (2014-10-04)<a class="headerlink" href="#version-0-2-2-2014-10-04" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Load bare X509 certificates from SAML metadata correctly</p></li>
+</ul>
+</div>
+<div class="section" id="version-0-2-1-2014-10-04">
+<h2>Version 0.2.1 (2014-10-04)<a class="headerlink" href="#version-0-2-1-2014-10-04" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Always use X509 information even if key value is present</p></li>
+<li><p>Internal refactor to modularize key value handling logic</p></li>
+</ul>
+</div>
+<div class="section" id="version-0-2-0-2014-10-02">
+<h2>Version 0.2.0 (2014-10-02)<a class="headerlink" href="#version-0-2-0-2014-10-02" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Use defusedxml when verifying signatures.</p></li>
+<li><p>Eliminate dependency on PyCrypto.</p></li>
+<li><p>Introduce support for ECDSA asymmetric key encryption.</p></li>
+<li><p>Introduce ability to validate xmldsig11 schema.</p></li>
+<li><p>Expand test suite coverage.</p></li>
+</ul>
+</div>
+<div class="section" id="version-0-1-9-2014-09-27">
+<h2>Version 0.1.9 (2014-09-27)<a class="headerlink" href="#version-0-1-9-2014-09-27" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Allow use of external X509 certificates for validation; add an example of supplying a cert from SAML metadata.</p></li>
+</ul>
+</div>
+<div class="section" id="version-0-1-8-2014-09-25">
+<h2>Version 0.1.8 (2014-09-25)<a class="headerlink" href="#version-0-1-8-2014-09-25" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Packaging fix.</p></li>
+</ul>
+</div>
+<div class="section" id="version-0-1-7-2014-09-25">
+<h2>Version 0.1.7 (2014-09-25)<a class="headerlink" href="#version-0-1-7-2014-09-25" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Packaging fix.</p></li>
+</ul>
+</div>
+<div class="section" id="version-0-1-6-2014-09-25">
+<h2>Version 0.1.6 (2014-09-25)<a class="headerlink" href="#version-0-1-6-2014-09-25" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Accept etree elements in verify.</p></li>
+</ul>
+</div>
+<div class="section" id="version-0-1-5-2014-09-25">
+<h2>Version 0.1.5 (2014-09-25)<a class="headerlink" href="#version-0-1-5-2014-09-25" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Packaging fix.</p></li>
+</ul>
+</div>
+<div class="section" id="version-0-1-4-2014-09-25">
+<h2>Version 0.1.4 (2014-09-25)<a class="headerlink" href="#version-0-1-4-2014-09-25" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Begin work toward conformance with version 1.1 of the spec.</p></li>
+</ul>
+</div>
+<div class="section" id="version-0-1-3-2014-09-23">
+<h2>Version 0.1.3 (2014-09-23)<a class="headerlink" href="#version-0-1-3-2014-09-23" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Require x509 for verification by default.</p></li>
+</ul>
+</div>
+<div class="section" id="version-0-1-2-2014-09-22">
+<h2>Version 0.1.2 (2014-09-22)<a class="headerlink" href="#version-0-1-2-2014-09-22" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Documentation fixes.</p></li>
+</ul>
+</div>
+<div class="section" id="version-0-1-1-2014-09-22">
+<h2>Version 0.1.1 (2014-09-22)<a class="headerlink" href="#version-0-1-1-2014-09-22" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Documentation fixes.</p></li>
+</ul>
+</div>
+<div class="section" id="version-0-1-0-2014-09-22">
+<h2>Version 0.1.0 (2014-09-22)<a class="headerlink" href="#version-0-1-0-2014-09-22" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Initial release.</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="table-of-contents">
+<h1>Table of Contents<a class="headerlink" href="#table-of-contents" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</div>
+
+
+          </div>
+            
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">signxml  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">SignXML: XML Signature in Python</a></li> 
+      </ul>
+    </div>
+<script type="text/javascript">
+  $("#mobile-toggle a").click(function () {
+    $("#left-column").toggle();
+  });
+</script>
+<script type="text/javascript" src="_static/js/bootstrap.js"></script>
+  <div class="footer">
+    &copy; Copyright Andrey Kislyuk and signxml contributors. Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>.
+  </div>
+  </body>
+</html>
