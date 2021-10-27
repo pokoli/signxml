@@ -6,7 +6,10 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 import cryptography.exceptions
 
-class InvalidSignature(cryptography.exceptions.InvalidSignature):
+class SignXMLException(Exception):
+    pass
+
+class InvalidSignature(cryptography.exceptions.InvalidSignature, SignXMLException):
     """
     Raised when signature validation fails.
     """
@@ -21,8 +24,8 @@ class InvalidCertificate(InvalidSignature):
     Raised when certificate validation fails.
     """
 
-class InvalidInput(ValueError):
+class InvalidInput(ValueError, SignXMLException):
     pass
 
-class RedundantCert(Exception):
+class RedundantCert(SignXMLException):
     pass
