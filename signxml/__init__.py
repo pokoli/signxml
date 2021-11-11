@@ -2,7 +2,6 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 from base64 import b64encode, b64decode
 from enum import Enum
-import re
 
 from lxml import etree
 from lxml.etree import Element, SubElement
@@ -373,8 +372,10 @@ class XMLSigner(XMLSignatureProcessor):
 
         sig_root, doc_root, c14n_inputs, reference_uris = self._unpack(data, reference_uris)
         # XXX: Reivew such functionalities
-        # doc_root, sig_root, reference_uris, c14n_inputs = self._pre_build_sig(doc_root, sig_root, reference_uris, c14n_inputs)
-        # signed_info_element, signature_value_element = self._build_sig(doc_root, sig_root, reference_uris, c14n_inputs)
+        # doc_root, sig_root, reference_uris, c14n_inputs = self._pre_build_sig(
+        # doc_root, sig_root, reference_uris, c14n_inputs)
+        # signed_info_element, signature_value_element = self._build_sig(
+        #    doc_root, sig_root, reference_uris, c14n_inputs)
 
         if self.method == methods.detached and signature_properties is not None:
             reference_uris.append("#prop")
@@ -442,7 +443,7 @@ class XMLSigner(XMLSignatureProcessor):
             else:
                 sig_root.append(key_info)
 
-            #ensure the right order of elements
+            # ensure the right order of elements
             doc_root, sig_root, c14n_inputs = self._sort_elements(
                 doc_root, sig_root, c14n_inputs)
         else:
@@ -605,7 +606,6 @@ class XMLSigner(XMLSignatureProcessor):
         signature_value = SubElement(sig_root, ds_tag("SignatureValue"))
         return signed_info, signature_value
 
-<<<<<<< HEAD
     def _build_signature_properties(self, signature_properties):
         obj = Element(ds_tag("Object"), attrib={'Id': 'prop'}, nsmap=self.namespaces)
         signature_properties_el = Element(ds_tag("SignatureProperties"))
@@ -617,7 +617,7 @@ class XMLSigner(XMLSignatureProcessor):
             signature_properties_el.append(signature_property)
         obj.append(signature_properties_el)
         return obj
-=======
+
     def _sort_elements(self, doc_root, sig_root, c14n_inputs):
         """
         This method is implemented to preserve the order in signature structure
@@ -625,11 +625,11 @@ class XMLSigner(XMLSignatureProcessor):
         appending SignedInfo, SignatureValue and KeyInfo, the structure's order
         will be corrupted once them have been added.
         """
-        ds_object = doc_root.xpath("//ds:Object", namespaces=namespaces)[0]
-        sig_root.insert(len(sig_root), ds_object)
+        ds_objects = doc_root.xpath("//ds:Object", namespaces=namespaces)
+        if ds_objects:
+            sig_root.insert(len(sig_root), ds_objects[0])
 
         return doc_root, sig_root, c14n_inputs
->>>>>>> 2a6d5f3 (Checks and improvements)
 
     def _serialize_key_value(self, key, key_info_element):
         """
