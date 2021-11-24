@@ -16,7 +16,7 @@ from cryptography.hazmat.primitives.asymmetric import rsa, dsa, ec
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from signxml import (XMLSigner, XMLVerifier, XMLSignatureProcessor, methods, namespaces, InvalidInput, # noqa
                      InvalidSignature, InvalidCertificate, InvalidDigest)
-from signxml.xades import XAdESSigner, SignerOptions, ProductionPlace, namespaces as xades_namespaces  # noqa
+from signxml.xades import XAdESSigner, ProductionPlace, namespaces as xades_namespaces  # noqa
 
 def reset_tree(t, method):
     if not isinstance(t, str):
