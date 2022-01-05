@@ -1,4 +1,5 @@
 import collections
+from collections.abc import Mapping
 import pytz
 import requests
 from base64 import b64encode
@@ -21,7 +22,7 @@ from ..util import add_pem_header, ensure_str, Namespace
 def namedtuple_with_defaults(typename, field_names, default_values=()):
     T = collections.namedtuple(typename, field_names)
     T.__new__.__defaults__ = (None,) * len(T._fields)
-    if isinstance(default_values, collections.Mapping):
+    if isinstance(default_values, Mapping):
         prototype = T(**default_values)
     else:
         prototype = T(*default_values)
